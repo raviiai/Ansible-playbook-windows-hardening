@@ -1,0 +1,10 @@
+---
+- name: Configure BlockUserFromShowingAccountDetailsOnSignin
+  hosts: windows
+  tasks:
+    - name: Set BlockUserFromShowingAccountDetailsOnSignin registry key
+      ansible.windows.win_regedit:
+        key: HKLM:\Software\Policies\Microsoft\Windows\System
+        value: BlockUserFromShowingAccountDetailsOnSignin
+        datatype: dword
+        data: 1

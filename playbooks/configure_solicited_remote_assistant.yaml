@@ -1,0 +1,38 @@
+---
+- name: Configure Solicited Remote Assistance
+  hosts: windows
+  tasks:
+    - name: Enable Solicited Remote Assistance
+      ansible.windows.win_regedit:
+        path: HKLM:\Software\policies\Microsoft\Windows NT\Terminal Services
+        name: fAllowToGetHelp
+        data: 1
+        type: dword
+
+    - name: Configure Remote Control Options
+      ansible.windows.win_regedit:
+        path: HKLM:\Software\policies\Microsoft\Windows NT\Terminal Services
+        name: fAllowFullControl
+        data: 1  # Enable this line to permit full control, or 0 to allow view only
+        type: dword
+
+    - name: Set Maximum Ticket Time
+      ansible.windows.win_regedit:
+        path: HKLM:\Software\policies\Microsoft\Windows NT\Terminal Services
+        name: MaxTicketExpiry
+        data: 30  # Replace with your desired value in minutes
+        type: dword
+
+    - name: Set Maximum Ticket Time Units
+      ansible.windows.win_regedit:
+        path: HKLM:\Software\policies\Microsoft\Windows NT\Terminal Services
+        name: MaxTicketExpiryUnits
+        data: 0  # 0 for minutes, 1 for hours, 2 for days
+        type: dword
+
+    - name: Set Method for Sending Email Invitations
+      ansible.windows.win_regedit:
+        path: HKLM:\Software\policies\Microsoft\Windows NT\Terminal Services
+        name: fUseMailto
+        data: 1  # Enable this line for using Mailto method, or 0 for Simple MAPI
+        type: dword

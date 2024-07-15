@@ -1,0 +1,34 @@
+---
+- name: Windows Hardening - Microsoft Accounts Optional
+  hosts: windows
+  tasks:
+
+    - name: Ensure Microsoft Account Sign-In Assistant service is running
+      ansible.windows.win_service:
+        name: wlidsvc
+        start_mode: auto
+        state: started
+
+    - name: Configure Group Policy to allow Microsoft accounts to be optional
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowYourAccountToBeOptional
+        name: Value
+        value: 1
+        type: dword
+        state: present
+
+    - name: Ensure users are not forced to use Microsoft accounts
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+        name: MSAOptional
+        value: 1
+        type: dword
+        state: present
+
+    - name: Ensure Microsoft account sign-in is not required
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Accounts\MicrosoftAccountSignIn
+        name: Value
+        value: 0
+        type: dword
+        state: present

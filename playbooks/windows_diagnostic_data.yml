@@ -1,0 +1,28 @@
+---
+- name: Allow Diagnostic Data Collection on Windows
+  hosts: windows
+  tasks:
+
+    - name: Enable diagnostic data collection
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection
+        name: AllowTelemetry
+        data: 3  # 3 enables Full telemetry, adjust as per your requirements
+        type: dword
+        state: present
+
+    - name: Set diagnostic data upload policy
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+        name: AllowDeviceNameInDiagnosticData
+        data: 1  # 1 allows device name to be included in diagnostic data
+        type: dword
+        state: present
+
+    - name: Ensure data upload policy is set
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+        name: AllowDesktopAnalyticsConsent
+        data: 1  # 1 allows consent for desktop analytics to be sent
+        type: dword
+        state: present

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Ansible-playbook-windows-hardening
+  annotations:
+    github.com/project-slug: raviiai/Ansible-playbook-windows-hardening
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guest
